@@ -16,6 +16,25 @@ class UserManager(BaseUserManager):
         user.set_password(password)
         user.is_admin = False
         user.is_staff = False
+        user.is_ambassador = False
+        user.save(using=self._db)
+        return user
+
+    def create_superuser(self, email, password=None):
+        if not email:
+            raise ValueError("User must have an email")
+        if not password:
+            raise ValueError("User must hava password")
+        
+        user= self.model(
+            email=self.normalize_email(email)
+        )
+        
+        user.set_password(password)
+        user.is_admin = True
+        user.is_ambassador = False
+        user.is_staff = True
+        user.is_superuser = True
         user.save(using=self._db)
         return user
 

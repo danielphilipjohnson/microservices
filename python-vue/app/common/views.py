@@ -4,10 +4,9 @@ from rest_framework.views import APIView
 from rest_framework.response import Response
 
 from core.models import User
+from .authentication import JWTAuthentication
 from .serializers import UserSerializer
 
-
-# Create your views here.
 class RegisterAPIView(APIView):
     def post(self, request):
         data = request.data
@@ -39,6 +38,17 @@ class LoginAPIView(APIView):
         if not user.check_password(password):
             raise exceptions.AuthenticationFailed('Invalid credentials')
 
-        return Response(UserSerializer(user).data)
-        # scope = 'ambassador' if 'api/ambassador' in request.path else 'admin'
+        scope = 'ambassador' if 'api/ambassador' in request.path else 'admin'
+        
+        if user.is_ambassador and scope == 'admin':
+             raise exceptions.AuthenticationFailed('Unauthorized')
 
+        token = JWTAuthentication.generate_jwt(user.id, scope)
+
+        response = Response()
+        response.set_cookie(key='jwt', value=token, httponly=True)
+        response.data = {
+            'message': 'success'
+        }
+
+        return response

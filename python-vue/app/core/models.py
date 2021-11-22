@@ -52,3 +52,10 @@ class User(AbstractUser):
 
     USERNAME_FIELD = 'email'
     REQUIRED_FIELDS = []
+
+
+    objects = UserManager()
+
+    @property
+    def name(self):
+        return self.first_name + ' ' + self.last_name

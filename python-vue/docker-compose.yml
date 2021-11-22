@@ -14,7 +14,7 @@ x-app-variables: &app-variables
   <<: *database-variables
   POSTGRES_HOST: postgres
   DEBUG: 1
-  SECRET_KEY: "supersupersecret"
+  SECRET_KEY: "6g^*cv_k@y+m-5@wo!=7df-qel@h3)6(9&t8$#)th97l9oyqea"
 
 services:
   app:

@@ -13,4 +13,4 @@ GET/POST /api/admin/products
 GET/PUT/Delete /api/admin/products/{product_id}
 GET /api/admin/users/{user_id}/links
 GET /api/admin/orders
-Get api/admin/ambassadors
+Get /api/admin/ambassadors

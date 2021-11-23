@@ -20,6 +20,7 @@ class JWTAuthentication(BaseAuthentication):
         except jwt.ExpiredSignatureError:
             raise exceptions.AuthenticationFailed('unauthenticated')
 
+        # rather basic authentication in future make a better secure system
         if (is_ambassador and payload['scope'] != 'ambassador') or (not is_ambassador and payload['scope'] != 'admin'):
             raise exceptions.AuthenticationFailed('Invalid Scope!')
 

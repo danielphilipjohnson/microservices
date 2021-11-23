@@ -39,7 +39,6 @@ class UserManager(BaseUserManager):
         return user
 
 
-# Create your models here.
 class User(AbstractUser):
     first_name = models.CharField(max_length=255)
     last_name = models.CharField(max_length=255)
@@ -59,3 +58,10 @@ class User(AbstractUser):
     @property
     def name(self):
         return self.first_name + ' ' + self.last_name
+
+class Product(models.Model):
+    title = models.CharField(max_length=255)
+    description = models.TextField(max_length=1000, null=True)
+    # cdn link
+    image = models.CharField(max_length=255)
+    price = models.DecimalField(max_digits=10, decimal_places=2)

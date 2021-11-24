@@ -7,6 +7,8 @@ from .serializers import ProductSerializer, LinkSerializer, OrderSerializer
 from common.authentication import JWTAuthentication
 from common.serializers import UserSerializer
 from core.models import User, Product, Link, Order
+from django.core.cache import cache
+
 
 class AmbassadorAPIView(APIView):
     authentication_classes = [JWTAuthentication]
@@ -16,6 +18,7 @@ class AmbassadorAPIView(APIView):
         ambassadors = User.objects.filter(is_ambassador=True)
         serializer = UserSerializer(ambassadors, many=True)
         return Response(serializer.data)
+
 
 class ProductGenericAPIView(
     generics.GenericAPIView, mixins.RetrieveModelMixin, mixins.ListModelMixin, mixins.CreateModelMixin,
@@ -29,34 +32,33 @@ class ProductGenericAPIView(
     def get(self, request, pk=None):
         if pk:
             return self.retrieve(request, pk)
+
         return self.list(request)
 
     def post(self, request):
         response = self.create(request)
-        # for key in cache.keys('*'):
-        #     if 'products_frontend' in key:
-        #         cache.delete(key)
-        # cache.delete('products_backend')
-        return self.create(request)
-        # return response
+        for key in cache.keys('*'):
+            if 'products_frontend' in key:
+                cache.delete(key)
+        cache.delete('products_backend')
+        return response
 
     def put(self, request, pk=None):
         response = self.partial_update(request, pk)
-        # for key in cache.keys('*'):
-        #     if 'products_frontend' in key:
-        #         cache.delete(key)
-        # cache.delete('products_backend')
-        return self.partial_update(request,pk)
-        # return response
+        for key in cache.keys('*'):
+            if 'products_frontend' in key:
+                cache.delete(key)
+        cache.delete('products_backend')
+        return response
 
     def delete(self, request, pk=None):
         response = self.destroy(request, pk)
-        # for key in cache.keys('*'):
-        #     if 'products_frontend' in key:
-        #         cache.delete(key)
-        # cache.delete('products_backend')
-        return self.delete(request, pk)
-        # return response
+        for key in cache.keys('*'):
+            if 'products_frontend' in key:
+                cache.delete(key)
+        cache.delete('products_backend')
+        return response
+
 
 class LinkAPIView(APIView):
     authentication_classes = [JWTAuthentication]

@@ -12,7 +12,7 @@ class Command(BaseCommand):
             order = Order.objects.create(
                 user_id=1,
                 code='code',
-                ambassador_email='b@b.com',
+                ambassador_email='test@admin',
                 first_name=faker.first_name(),
                 last_name=faker.last_name(),
                 email=faker.email(),

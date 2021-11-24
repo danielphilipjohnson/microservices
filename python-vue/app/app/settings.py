@@ -45,8 +45,10 @@ INSTALLED_APPS = [
     'rest_framework',
     'corsheaders',
     'core',
+    'common',
     'administrator',
-    'common'
+    'ambassador',
+    'checkout',
   
 ]
 
@@ -151,3 +153,11 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 # temp solution to allow multiple connections from microservices
 CORS_ORIGIN_ALLOW_ALL = True
 CORS_ALLOW_CREDENTIALS = True
+
+# Email mail hog settings
+
+EMAIL_HOST = 'docker.for.mac.Localhost'
+EMAIL_PORT = '1025'
+EMAIL_HOST_USER = ''
+EMAIL_HOST_PASSWORD = ''
+EMAIL_USE_TLS = False
